@@ -20,6 +20,11 @@ In this form, we don't need to list all systems which may write to `ComponentA` 
 We can just think about the indivisual system at the time.
 
 
+This crate may be outdated after Bevy itself solve this issue.
+* https://github.com/bevyengine/bevy/issues/7857
+* https://github.com/bevyengine/bevy/pull/8595
+
+
 ## Limitations
 * Can't handle system which read and write on same type. It is considered as cyclic dependency.
 * You have to manually list the `DataLabel<T>` which the system is related.
