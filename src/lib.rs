@@ -1,6 +1,6 @@
-use std::marker::PhantomData;
+use std::{marker::PhantomData, hash::Hasher};
 
-use bevy::{prelude::*, ecs::schedule::{ScheduleLabel, SystemConfigs}};
+use bevy::{prelude::*, utils::label::{DynEq, DynHash}, ecs::schedule::{ScheduleLabel, SystemConfigs}};
 use tiny_utils_proc_macros::all_tuples_with_index;
 
 
@@ -62,6 +62,12 @@ impl<T: 'static + Send + Sync> std::hash::Hash for DataLabel<T> {
     }
 }
 impl<T: 'static + Send + Sync> SystemSet for DataLabel<T> {
+    fn as_dyn_eq(&self) -> &(dyn DynEq + 'static) {
+        DynHash::as_dyn_eq(self)
+    }
+    fn dyn_hash(&self, state: &mut dyn Hasher) {
+        DynHash::dyn_hash(self, state);
+    }
     fn dyn_clone(&self) -> Box<dyn SystemSet> {
         Box::new(self.clone())
     }
